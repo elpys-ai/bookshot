@@ -8,6 +8,8 @@ Flask + SQLite + Tesseract. Превращает скриншоты с реко�
 - Примеры скриншотов: `python scripts/make_samples.py`
 - Скриншоты для README: `python scripts/take_screenshots.py`
 
+Общие инструкции для всех агентов: см. AGENTS.md.
+
 ## Правила
 - Логика разбора строк живёт только в `bookparser.py`; каждое исправление парсера сопровождается тестом в `tests/test_parser.py`.
 - Известные авторы и жанры — в `genres.py`.
