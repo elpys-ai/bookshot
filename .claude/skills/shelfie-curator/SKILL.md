@@ -1,16 +1,16 @@
 ---
-name: bookshot-curator
-description: Use when the user shares screenshots, photos or pasted text with book recommendations and wants the books extracted and organized by author and genre, or wants to add them to the BookShot library. Triggers - "разложи книги со скриншота", "собери подборку по авторам", "какие книги на этих скринах".
+name: shelfie-curator
+description: Use when the user shares screenshots, photos or pasted text with book recommendations and wants the books extracted and organized by author and genre, or wants to add them to the Shelfie library. Triggers - "разложи книги со скриншота", "собери подборку по авторам", "какие книги на этих скринах".
 ---
 
-# BookShot Curator
+# Shelfie Curator
 
-Превращает скриншоты и текст с рекомендациями книг в аккуратную подборку: название, автор, жанр — и группировку по авторам и жанрам. Работает вместе с приложением BookShot из этого репозитория, но полезен и сам по себе.
+Превращает скриншоты и текст с рекомендациями книг в аккуратную подборку: название, автор, жанр — и группировку по авторам и жанрам. Работает вместе с приложением Shelfie из этого репозитория, но полезен и сам по себе.
 
 ## Когда применять
 - Пользователь прикрепил скриншот(ы) с книжными рекомендациями (чат, пост, заметки, список).
 - Пользователь вставил текст со списком книг в свободной форме.
-- Нужно добавить найденное в библиотеку BookShot или выгрузить CSV.
+- Нужно добавить найденное в библиотеку Shelfie или выгрузить CSV.
 
 ## Шаги
 

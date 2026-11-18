@@ -1,4 +1,4 @@
-"""BookShot — превращает скриншоты с рекомендациями книг в библиотеку по авторам и жанрам."""
+"""Shelfie — превращает скриншоты с рекомендациями книг в библиотеку по авторам и жанрам."""
 from __future__ import annotations
 
 import csv
@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS books (
 
 def create_app(data_dir: str | None = None) -> Flask:
     app = Flask(__name__)
-    data = Path(data_dir or os.environ.get("BOOKSHOT_DATA", "data")).resolve()
+    data = Path(data_dir or os.environ.get("SHELFIE_DATA", "data")).resolve()
     (data / "uploads").mkdir(parents=True, exist_ok=True)
     app.config.update(
         DATA_DIR=data,
-        DB_PATH=data / "bookshot.db",
+        DB_PATH=data / "shelfie.db",
         UPLOAD_DIR=data / "uploads",
         MAX_CONTENT_LENGTH=25 * 1024 * 1024,
         SECRET_KEY=os.environ.get("SECRET_KEY", "dev-only-change-me"),
@@ -202,7 +202,7 @@ def create_app(data_dir: str | None = None) -> Flask:
         w.writerow(["title", "author", "genre", "is_read"])
         w.writerows([tuple(r) for r in rows])
         return Response("﻿" + buf.getvalue(), mimetype="text/csv",
-                        headers={"Content-Disposition": "attachment; filename=bookshot.csv"})
+                        headers={"Content-Disposition": "attachment; filename=shelfie.csv"})
 
     return app
 

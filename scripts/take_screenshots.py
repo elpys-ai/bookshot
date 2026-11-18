@@ -22,8 +22,8 @@ URL = f"http://127.0.0.1:{PORT}"
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    data = tempfile.mkdtemp(prefix="bookshot-demo-")
-    env = {**os.environ, "BOOKSHOT_DATA": data, "PORT": str(PORT)}
+    data = tempfile.mkdtemp(prefix="shelfie-demo-")
+    env = {**os.environ, "SHELFIE_DATA": data, "PORT": str(PORT)}
     server = subprocess.Popen([sys.executable, str(ROOT / "app.py")], cwd=ROOT, env=env,
                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
