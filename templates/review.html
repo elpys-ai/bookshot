@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Проверка — BookShot{% endblock %}
+{% block content %}
+<h1>Проверь, что нашлось</h1>
+<p class="hint">Исправь название, автора или жанр, сними галочки с лишнего — и сохрани в библиотеку.</p>
+{% if not ocr_ok %}<div class="flash">Tesseract не найден: текст со скриншотов не распознаётся. Установи его или вставь текст вручную.</div>{% endif %}
+
+<form method="post" action="{{ url_for('review_save') }}">
+  {% set ns = namespace(i=0) %}
+  {% for sec in sections %}
+  <section class="card review">
+    <div class="shot">
+      {% if sec.shot.filename %}
+        <img src="{{ url_for('uploaded', name=sec.shot.filename) }}" alt="скриншот">
+      {% else %}
+        <div class="pasted">Вставленный текст</div>
+      {% endif %}
+      <details><summary>Распознанный текст</summary><pre>{{ sec.shot.ocr_text }}</pre></details>
+    </div>
+    <div class="items">
+      {% if not sec['items'] %}<p class="empty">Книг не нашлось. Попробуй скриншот почётче или вставь текст вручную.</p>{% endif %}
+      {% for it in sec['items'] %}
+        {% set i = ns.i %}
+        <div class="item">
+          <input type="checkbox" name="keep_{{ i }}" checked>
+          <input type="hidden" name="shot_{{ i }}" value="{{ sec.shot.id }}">
+          <input name="title_{{ i }}" value="{{ it.title }}" aria-label="Название">
+          <input name="author_{{ i }}" value="{{ it.author if it.author != 'Автор не указан' else '' }}" placeholder="Автор" aria-label="Автор">
+          <select name="genre_{{ i }}" aria-label="Жанр">
+            {% for g in genres %}<option {{ 'selected' if g == it.genre }}>{{ g }}</option>{% endfor %}
+          </select>
+        </div>
+        {% set ns.i = ns.i + 1 %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+  <input type="hidden" name="count" value="{{ ns.i }}">
+  <div class="bar">
+    <a class="btn ghost" href="{{ url_for('library') }}">Отмена</a>
+    <button class="btn" type="submit">Сохранить в библиотеку</button>
+  </div>
+</form>
+{% endblock %}

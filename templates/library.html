@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="stats">
+  <div><b>{{ stats.n or 0 }}</b><span>книг</span></div>
+  <div><b>{{ stats.a or 0 }}</b><span>авторов</span></div>
+  <div><b>{{ stats.g or 0 }}</b><span>жанров</span></div>
+  <div><b>{{ shots }}</b><span>скриншотов</span></div>
+  <div><b>{{ stats.r or 0 }}</b><span>прочитано</span></div>
+</section>
+
+<section class="card upload">
+  <h2>Добавить скриншоты</h2>
+  <form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <label class="drop">
+      <input type="file" name="screenshots" accept="image/*" multiple>
+      <span>Выбери один или несколько скриншотов с рекомендациями книг</span>
+    </label>
+    <details>
+      <summary>…или вставь текст вручную</summary>
+      <textarea name="pasted" rows="4" placeholder="«Мастер и Маргарита» — Михаил Булгаков"></textarea>
+    </details>
+    <button class="btn" type="submit">Распознать книги</button>
+  </form>
+</section>
+
+<section class="toolbar">
+  <nav class="tabs">
+    <a class="{{ 'on' if view == 'authors' }}" href="{{ url_for('library', view='authors', q=q or None, genre=genre or None) }}">По авторам</a>
+    <a class="{{ 'on' if view == 'genres' }}" href="{{ url_for('library', view='genres', q=q or None, author=author or None) }}">По жанрам</a>
+    <a class="{{ 'on' if view == 'all' }}" href="{{ url_for('library', view='all', q=q or None) }}">Все книги</a>
+  </nav>
+  <form class="search" method="get">
+    <input type="hidden" name="view" value="{{ view }}">
+    <input name="q" value="{{ q }}" placeholder="Поиск по названию или автору">
+    <select name="genre" onchange="this.form.submit()">
+      <option value="">Все жанры</option>
+      {% for g in genres %}<option {{ 'selected' if g == genre }}>{{ g }}</option>{% endfor %}
+    </select>
+  </form>
+</section>
+
+{% if not groups %}
+  <p class="empty">Пока пусто. Загрузи первый скриншот — или добавь книгу вручную ниже.</p>
+{% endif %}
+
+{% for name, books in groups %}
+  <section class="group">
+    {% if name %}<h3>{{ name }} <small>{{ books|length }}</small></h3>{% endif %}
+    <div class="grid">
+      {% for b in books %}
+      <article class="book {{ 'read' if b.is_read }}">
+        <div class="spine"></div>
+        <div class="meta">
+          <h4>{{ b.title }}</h4>
+          <a class="author" href="{{ url_for('library', view='all', author=b.author) }}">{{ b.author }}</a>
+          <a class="chip" href="{{ url_for('library', view='all', genre=b.genre) }}">{{ b.genre }}</a>
+        </div>
+        <div class="actions">
+          <form method="post" action="{{ url_for('toggle_read', book_id=b.id) }}"><button title="Отметить прочитанной">{{ '✓ прочитано' if b.is_read else '○ хочу прочитать' }}</button></form>
+          <form method="post" action="{{ url_for('delete_book', book_id=b.id) }}"><button class="danger" title="Удалить">✕</button></form>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
+
+<section class="card add">
+  <h2>Добавить книгу вручную</h2>
+  <form method="post" action="{{ url_for('add_book') }}" class="row">
+    <input name="title" placeholder="Название" required>
+    <input name="author" placeholder="Автор">
+    <select name="genre">
+      <option value="">Жанр (авто)</option>
+      {% for g in genres %}<option>{{ g }}</option>{% endfor %}
+    </select>
+    <button class="btn" type="submit">Добавить</button>
+  </form>
+</section>
+{% endblock %}

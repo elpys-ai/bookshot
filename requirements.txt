@@ -1,0 +1,5 @@
+Flask>=3.0
+Pillow>=10.0
+pytesseract>=0.3.10
+pytest>=8.0
+playwright>=1.40  # только для scripts/take_screenshots.py
