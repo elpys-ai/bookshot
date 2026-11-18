@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Shelfie{% endblock %}</title>
+  <title>{% block title %}BookShot{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="{{ url_for('library') }}">📚 Shelfie</a>
+    <a class="logo" href="{{ url_for('library') }}">📚 BookShot</a>
     <span class="tagline">скриншоты → книги → полки по авторам и жанрам</span>
     <a class="btn ghost small" href="{{ url_for('export_csv') }}">Экспорт CSV</a>
   </header>
