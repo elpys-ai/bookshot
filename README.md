@@ -39,7 +39,7 @@
 ```bash
 # Ubuntu/Debian: sudo apt install tesseract-ocr tesseract-ocr-rus
 # macOS:         brew install tesseract tesseract-lang
-git clone https://github.com/<ваш-логин>/bookshot.git && cd bookshot
+git clone https://github.com/elpys-ai/bookshot.git && cd bookshot
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python app.py          # → http://127.0.0.1:5000
